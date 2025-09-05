@@ -50,7 +50,13 @@
             <?php endif; ?>
             <h3><?php echo htmlspecialchars($person['name'] ?? ''); ?></h3>
             <p><?php echo htmlspecialchars($person['role'] ?? ''); ?></p>
-            <button class="btn-contact" data-contact="mailto:<?php echo htmlspecialchars($person['email'] ?? ''); ?>">Kontaktovat</button>
+            <button class="contact-btn"
+              data-dc="<?php echo htmlspecialchars($person['dc'] ?? ''); ?>"
+              data-steam="<?php echo htmlspecialchars($person['steam'] ?? ''); ?>"
+              data-trucksbook="<?php echo htmlspecialchars($person['trucksbook'] ?? ''); ?>"
+              data-email="<?php echo htmlspecialchars($person['email'] ?? ''); ?>">
+                Kontaktovat
+            </button>
           </div>
         <?php endforeach; ?>
       </div>

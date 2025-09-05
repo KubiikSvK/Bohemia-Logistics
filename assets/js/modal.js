@@ -12,15 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // === Kontakt modal ===
   document.querySelectorAll(".contact-btn").forEach(button => {
     button.addEventListener("click", () => {
-      const card = button.closest(".employee-card");
-      const name = card.querySelector("h3")?.textContent || "";
-      const role = card.querySelector("p")?.textContent || "";
-      const imgSrc = card.querySelector("img")?.getAttribute("src") || "";
+      const name = button.closest(".contact-card")?.querySelector("h3")?.textContent || "";
+      const role = button.closest(".contact-card")?.querySelector("p")?.textContent || "";
+      const imgSrc = button.closest(".contact-card")?.querySelector("img")?.getAttribute("src") || "";
 
-      const dc = card.dataset.dc || "";
-      const steam = card.dataset.steam || "";
-      const tb = card.dataset.trucksbook || "";
-      const email = card.dataset.email || "";
+      const dc = button.dataset.dc || "";
+      const steam = button.dataset.steam || "";
+      const tb = button.dataset.trucksbook || "";
+      const email = button.dataset.email || "";
 
       modalBody.innerHTML = `
         <img src="${imgSrc}" alt="${name}" style="width:100px; height:100px; border-radius:50%; margin-bottom:10px;">
