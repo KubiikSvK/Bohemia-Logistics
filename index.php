@@ -7,7 +7,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bohemia Logistics - Virtuální ETS2 logistika</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/modal.css">
+    <?php
+    // Dynamicky připojíme admin CSS jen pokud jsme v admin sekci
+    if (strpos($_SERVER['REQUEST_URI'], '/admin') !== false || strpos($_SERVER['REQUEST_URI'], 'manage-employees') !== false) {
+      echo '<link rel="stylesheet" href="/assets/css/admin.css">';
+    }
+  ?>
 </head>
 <body>
 

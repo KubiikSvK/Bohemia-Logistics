@@ -9,19 +9,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let galleryImages = [];
   let currentIndex = 0;
 
-  // Kontakt modal
+  // === Kontakt modal ===
   document.querySelectorAll(".contact-btn").forEach(button => {
     button.addEventListener("click", () => {
       const card = button.closest(".employee-card");
-      const name = card.querySelector("h3").textContent;
-      const role = card.querySelector("p").textContent;
-      const imgSrc = card.querySelector("img").getAttribute("src");
+      const name = card.querySelector("h3")?.textContent || "";
+      const role = card.querySelector("p")?.textContent || "";
+      const imgSrc = card.querySelector("img")?.getAttribute("src") || "";
 
-      // Custom data attributes for contact links
-      const dc = card.getAttribute("data-dc");
-      const steam = card.getAttribute("data-steam");
-      const tb = card.getAttribute("data-trucksbook");
-      const email = card.getAttribute("data-email");
+      const dc = card.dataset.dc || "";
+      const steam = card.dataset.steam || "";
+      const tb = card.dataset.trucksbook || "";
+      const email = card.dataset.email || "";
 
       modalBody.innerHTML = `
         <img src="${imgSrc}" alt="${name}" style="width:100px; height:100px; border-radius:50%; margin-bottom:10px;">
@@ -35,11 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
       modalNav.style.display = "none";
-      modal.style.display = "block";
+      modal.classList.add("active");
     });
   });
 
-  // Galerie modal
+  // === Galerie modal ===
   document.querySelectorAll(".gallery-img").forEach((img, index) => {
     galleryImages.push(img.getAttribute("src"));
 
@@ -47,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentIndex = index;
       showGalleryImage();
       modalNav.style.display = "flex";
-      modal.style.display = "block";
+      modal.classList.add("active");
     });
   });
 
@@ -67,12 +66,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
+    modal.classList.remove("active");
   });
 
   window.addEventListener("click", (e) => {
     if (e.target === modal) {
-      modal.style.display = "none";
+      modal.classList.remove("active");
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!modal.classList.contains("active")) return;
+
+    if (e.key === "Escape") modal.classList.remove("active");
+    if (modalNav.style.display === "flex") {
+      if (e.key === "ArrowLeft") prevBtn.click();
+      if (e.key === "ArrowRight") nextBtn.click();
     }
   });
 });

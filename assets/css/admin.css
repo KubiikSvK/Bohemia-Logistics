@@ -1,0 +1,130 @@
+/*  Nadpis dashboardu */
+.admin-dashboard h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/*  Blok s tlačítky v dashboardu */
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/*  Tlačítka v adminu */
+.admin-btn {
+  background-color: #3498db;
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  display: inline-block; /* ✅ doporučeno pro konzistenci */
+}
+
+/*  Hover efekt pro běžná tlačítka */
+.admin-btn:hover {
+  background-color: #2980b9;
+}
+
+/*  Tlačítko typu "nebezpečí" (např. odhlášení, smazání) */
+.admin-btn.danger {
+  background-color: #e74c3c;
+}
+
+.admin-btn.danger:hover {
+  background-color: #c0392b;
+}
+
+/*  Tabulka zaměstnanců */
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1f1f1f;
+  color: #ccc;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/*  Buňky tabulky */
+.employee-table th,
+.employee-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+/*  Hover efekt pro řádky */
+.employee-table tr:hover {
+  background-color: #262626;
+}
+
+/*  Avatar v tabulce */
+.admin-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/*  Formulářové skupiny */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/*  Popisky formulářových polí */
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #eee;
+}
+
+/*  Vstupní pole, selecty, textarea */
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 5px;
+  font-family: 'Nunito', sans-serif;
+}
+
+/*  Tlačítko pro odeslání formuláře */
+input[type="submit"] {
+  background-color: var(--accent-color);
+  color: #1f1f1f;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Hover efekt pro submit */
+input[type="submit"]:hover {
+  background-color: #e6951d;
+}
+
+/* admin panel*/
+.form-section {
+  margin-top: 2rem;
+  background-color: #1f1f1f;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.form-section h2 {
+  margin-bottom: 1rem;
+  color: var(--accent-color);
+}

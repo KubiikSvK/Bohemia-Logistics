@@ -38,7 +38,7 @@
     <section class="team-cta">
         <h2>Přidejte se k nám</h2>
         <p>Hledáme nové kolegy do našeho týmu – pojďme spolu růst!</p>
-        <a href="pridseknam.php" class="btn">Více informací</a>
+        <a href="join-us.php" class="btn">Více informací</a>
     </section>
 </main>
 </div>

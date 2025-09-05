@@ -1,3 +1,4 @@
+<?php include '../../includes/auth.php'; ?>
 <head>
   <title>Správa zaměstnanců - Bohemia Logistics</title>
   <link rel="stylesheet" href="/assets/css/style.css">

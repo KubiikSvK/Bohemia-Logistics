@@ -1,12 +1,22 @@
 [
   {
-    "name": "Jméno 1",
-    "role": "Generální ředitel",
-    "img": "/assets/img/employees/1.jpg",
+    "name": "furyE",
+    "role": "Majitel",
+    "img": "/assets/img/employees/owner.jpg",
     "dc": "https://discord.com/users/123",
     "steam": "https://steamcommunity.com/id/jmeno1",
     "trucksbook": "https://trucksbook.eu/profile/123",
     "email": "jmeno1@example.com",
+    "category": "vedeni"
+  },
+  {
+    "name": ".erikvanek",
+    "role": "Náborář",
+    "img": "/assets/img/employees/recruiter.png",
+    "dc": "https://discord.com/users/456",
+    "steam": "https://steamcommunity.com/id/naborar1",
+    "trucksbook": "https://trucksbook.eu/profile/456",
+    "email": "naborar1@example.com",
     "category": "vedeni"
   },
   {
