@@ -1,0 +1,713 @@
+/* ============================= */
+/* Globální reset a typografie */
+/* ============================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #121212; /* tmavé pozadí */
+    color: #eee;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    color: #f5a623; /* hlavní akcentní barva */
+    margin-bottom: 1rem;
+}
+/* ============================= */
+/* Globální container pro celý web */
+/* ============================= */
+.container {
+    max-width: 1200px; /* fancy šířka, ne full screen */
+    margin: 0 auto;    /* centrování */
+    padding: 0 1.5rem; /* odsazení z kraje */
+    box-sizing: border-box;
+}
+
+/* ============================= */
+/* Linky a tlačítka */
+/* ============================= */
+a {
+    color: #f5a623;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #e59400;
+}
+
+button, .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #f5a623;
+    color: #121212;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #e59400;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(245,166,35,0.6);
+}
+
+/* ============================= */
+/* Header a navigace */
+/* ============================= */
+
+:root {
+    --bg-color: #1f1f1f;
+    --text-color: #eee;
+    --accent-color: #f5a623;
+}
+
+/* Header */
+.site-header {
+    background-color: var(--bg-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+/* Container uvnitř headeru */
+.site-header .container {
+    display: flex;
+    justify-content: space-between; /* logo vlevo, menu vpravo */
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+/* Logo */
+.site-header .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    text-decoration: none;
+}
+.site-header .logo span {
+    color: var(--text-color);
+}
+
+/* Navigace */
+.site-nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.site-nav ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Hover efekt */
+.site-nav ul li a::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 0;
+    background: var(--accent-color);
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+}
+
+.site-nav ul li a:hover::after {
+    width: 100%;
+}
+
+.site-nav ul li a:hover {
+    color: var(--accent-color);
+}
+
+/* Responzivní menu pro mobily */
+@media (max-width: 768px) {
+    .site-header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .site-nav ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    .site-nav ul li a {
+        width: 100%;
+        padding: 0.5rem 0;
+    }
+}
+
+/* ============================= */
+/* Footer */
+/* ============================= */
+footer {
+    background-color: #1f1f1f;
+    padding: 2rem;
+    text-align: center;
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+}
+
+footer a {
+    margin: 0 0.5rem;
+}
+
+footer img {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    margin: 0 5px;
+    transition: transform 0.3s ease;
+}
+
+footer img:hover {
+    transform: scale(1.2);
+}
+
+/* ============================= */
+/* Modaly a cookies lišta */
+/* ============================= */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background-color: #1c1c1c;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+}
+
+/* Cookies lišta */
+.cookies-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1f1f1f;
+    color: #eee;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.cookies-bar button {
+    background-color: #f5a623;
+}
+
+/* ============================= */
+/* Sekce obsahu (About, Team, Galerie) */
+/* ============================= */
+section {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    background-color: #1b1b1b;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+section ul li {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+section ul li::before {
+    content: "➤";
+    position: absolute;
+    left: 0;
+    color: #f5a623;
+}
+/* ============================= */
+/* Employees page */
+/* ============================= */
+
+.employees-page h1,
+.employees-page h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.employee-category {
+    margin-bottom: 3rem;
+}
+
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+}
+
+/* Společné styly pro karty */
+.employee-card {
+    background-color: #2a2a2a;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 180px;
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.employee-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.employee-card h3 {
+    margin: 0.5rem 0 0.2rem 0;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-color);
+}
+
+.employee-card p {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+/* Kontakt tlačítko */
+.btn-contact {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    background-color: var(--accent-color);
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-contact:hover {
+    background-color: #f39c12;
+}
+
+/* Modal */
+/* ============================= */
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #1f1f1f;
+    color: #eee;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--accent-color);
+}
+
+.modal-content p {
+    margin: 1rem 0 0 0;
+    font-family: 'Nunito', sans-serif;
+    color: #ccc;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #eee;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.contact-btn {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #f5a623;
+    color: #1f1f1f;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.contact-btn:hover {
+    background-color: #e6951d;
+}
+
+
+/* ============================= */
+/* Obrazky */
+/* ============================= */
+img {
+    max-width: 100%;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ============================= */
+/* Galerie */
+/* ============================= */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+    transform: scale(1.05);
+}
+
+/* Modal */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.gallery-modal .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.gallery-modal .close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f5a623;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.gallery-modal .prev,
+.gallery-modal .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    color: #f5a623;
+    font-weight: bold;
+    font-size: 40px;
+    user-select: none;
+    transition: 0.3s;
+}
+
+.gallery-modal .prev {
+    left: 0;
+}
+
+.gallery-modal .next {
+    right: 0;
+}
+
+.gallery-modal .prev:hover,
+.gallery-modal .next:hover {
+    color: #fff;
+}
+
+/* ============================= */
+/* Join Us Page - Modern Dark Panels */
+/* ============================= */
+.join-us-page h1,
+.join-us-page h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.join-us-page p,
+.join-us-page li {
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.join-us-page ul {
+    list-style: disc inside;
+    margin-bottom: 1.5rem;
+}
+
+.join-us-page ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Panely */
+.join-us-page .panel {
+    background-color: #2a2a2a;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.join-us-page .panel:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* CTA tlačítko */
+.btn-join {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--accent-color);
+    color: #1f1f1f;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-join:hover {
+    background-color: #f39c12;
+    transform: translateY(-2px);
+}
+
+/* Responzivita */
+@media (max-width: 768px) {
+    .join-us-page .panel {
+        padding: 1.5rem;
+    }
+    .btn-join {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ============================= */
+/* Contacts Page */
+/* ============================= */
+
+.contacts-page h1,
+.contacts-page h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.contact-form-section,
+.external-links,
+.main-contacts {
+    margin-bottom: 3rem;
+}
+
+/* Formulář */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #1f1f1f;
+    color: #eee;
+    font-family: 'Nunito', sans-serif;
+    resize: none;
+}
+
+.contact-form button {
+    padding: 0.7rem 1.5rem;
+    background-color: var(--accent-color);
+    color: #1f1f1f;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #f39c12;
+    transform: translateY(-2px);
+}
+
+/* Externí odkazy */
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background-color: #2a2a2a;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #eee;
+    font-family: 'Montserrat', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.link-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.link-card img {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 0.5rem;
+}
+
+/* Karty hlavních osob */
+.contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+}
+
+.contact-card {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translat
+}
+
+/* ============================= */
+/* Responzivita - mobilní zařízení */
+/* ============================= */
+@media (max-width: 768px) {
+    /* Header */
+    .site-header .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .site-nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        width: 100%;
+        text-align: center;
+    }
+    .site-nav ul li a {
+        width: 100%;
+        padding: 0.5rem 0;
+    }
+
+    /* Sekce padding */
+    section {
+        padding: 1rem;
+    }
+
+    /* Employee grid */
+    .employee-category.vedeni .employee-grid,
+    .employee-category.ridici .employee-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        justify-content: center;
+    }
+
+    /* Footer ikony */
+    .footer-icons img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
