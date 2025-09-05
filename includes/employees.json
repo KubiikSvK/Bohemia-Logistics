@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Jméno 1",
+    "role": "Generální ředitel",
+    "img": "/assets/img/employees/1.jpg",
+    "dc": "https://discord.com/users/123",
+    "steam": "https://steamcommunity.com/id/jmeno1",
+    "trucksbook": "https://trucksbook.eu/profile/123",
+    "email": "jmeno1@example.com",
+    "category": "vedeni"
+  },
+  {
+    "name": "Řidič 1",
+    "role": "Senior driver",
+    "img": "/assets/img/employees/2.jpg",
+    "dc": "",
+    "steam": "",
+    "trucksbook": "",
+    "email": "",
+    "category": "ridici"
+  }
+]

@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-left">
-            <h3>Bohemia Logistics</h3>
+            <h3><a href="/index.php" class="logo">Bohemia <span>Logistics</span></a></h3>
             <p>&copy; <?= date('Y') ?> Bohemia Logistics. Všechna práva vyhrazena.</p>
         </div>
         <div class="footer-center">
@@ -15,10 +15,10 @@
             <p>Sledujte nás:</p>
             <div class="social-links">
                 <a href="https://discord.com" target="_blank">
-                <img src="assets/img/icons/dc.png" alt="Discord" class="footer-icon">
+                <img src="/assets/img/icons/dc.png" alt="Discord" class="footer-icon">
             </a>
             <a href="https://instagram.com" target="_blank">
-                <img src="assets/img/icons/ig.png" alt="Instagram" class="footer-icon">
+                <img src="/assets/img/icons/ig.png" alt="Instagram" class="footer-icon">
             </a>
             </div>
         </div>

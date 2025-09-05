@@ -1,4 +1,5 @@
 <?php include '../includes/header.php'; ?>
+<div class="container">
 
 <main class="about-us">
     <section class="hero">
@@ -40,5 +41,5 @@
         <a href="pridseknam.php" class="btn">Více informací</a>
     </section>
 </main>
-
+</div>
 <?php include '../includes/footer.php'; ?>

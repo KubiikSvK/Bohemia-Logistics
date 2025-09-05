@@ -12,6 +12,7 @@
 <body>
 
 <?php include 'includes/header.php'; ?>
+    <div class="container">
 
 <main class="hero">
     <section class="welcome">
@@ -30,9 +31,10 @@
         </ul>
     </section>
 </main>
-
+    </div>
 <?php include 'includes/footer.php'; ?>
 <script src="assets/js/script.js"></script>
 <script src="assets/js/cookies.js"></script>
+
 </body>
 </html>
