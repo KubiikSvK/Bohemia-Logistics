@@ -18,8 +18,13 @@ $e = $employees[$index];
 <div class="container">
   <h1>Editace zaměstnance</h1>
 
-  <form method="post" action="/actions/update-employee.php" enctype="multipart/form-data">
+  <form method="post" action="/pages/admin/update-employee.php" enctype="multipart/form-data">
     <input type="hidden" name="index" value="<?= $index ?>">
+
+    <div class="form-group">
+        <label class="form-label">Aktuální foto</label><br>
+        <img src="<?= htmlspecialchars($e['img']) ?>" alt="Foto" style="max-width:150px; border-radius:6px;">
+    </div>
 
     <div class="form-group">
       <label class="form-label">Jméno</label>
@@ -32,12 +37,20 @@ $e = $employees[$index];
     </div>
 
     <div class="form-group">
+        <label class="form-label">Kategorie</label>
+        <select name="category" required>
+            <option value="vedeni" <?= $e['category'] === 'vedeni' ? 'selected' : '' ?>>Vedení</option>
+            <option value="ridici" <?= $e['category'] === 'ridici' ? 'selected' : '' ?>>Řidiči</option>
+        </select>
+    </div>
+
+    <div class="form-group">
       <label class="form-label">Email</label>
       <input type="email" name="email" value="<?= htmlspecialchars($e['email']) ?>">
     </div>
 
     <div class="form-group">
-      <label class="form-label">Discord</label>
+      <label class="form-label">Discord ID</label>
       <input type="text" name="dc" value="<?= htmlspecialchars($e['dc']) ?>">
     </div>
 
@@ -54,6 +67,11 @@ $e = $employees[$index];
     <div class="form-group">
       <label class="form-label">Foto (URL)</label>
       <input type="text" name="img" value="<?= htmlspecialchars($e['img']) ?>">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Nové foto (soubor)</label>
+        <input type="file" name="new_img" accept="image/*">
     </div>
 
     <input type="submit" value="💾 Uložit změny">

@@ -15,7 +15,8 @@
       $role = htmlspecialchars($e['role']);
       $img = htmlspecialchars($e['img']);
       $email = htmlspecialchars($e['email']);
-      $dc = htmlspecialchars($e['dc']);
+      $dcRaw = htmlspecialchars($e['dc']);
+        $dcClean = preg_replace('/^https:\/\/discord\.com\/users\//', '', $dcRaw);
       $steam = htmlspecialchars($e['steam']);
       $tb = htmlspecialchars($e['trucksbook']);
 
@@ -29,7 +30,7 @@
             data-role="$role"
             data-img="$img"
             data-email="$email"
-            data-dc="$dc"
+            data-dc="$dcClean"
             data-steam="$steam"
             data-trucksbook="$tb">
             Kontaktovat

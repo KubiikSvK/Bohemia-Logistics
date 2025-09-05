@@ -183,6 +183,16 @@ input[type="submit"]:hover {
   background: #0056b3;
 }
 
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 1em;
+}
+
 /* === MESSAGES === */
 .success-msg {
   background: #d4edda;

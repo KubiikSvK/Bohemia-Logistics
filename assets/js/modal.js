@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <h3>${name}</h3>
         <p>${role}</p>
         <div class="contact-links">
-          ${dc ? `<a href="${dc}" target="_blank">Discord</a>` : ""}
+          ${dc ? `<a href="https://discord.com/users/${dc}" target="_blank">Discord</a>` : ""}
           ${steam ? `<a href="${steam}" target="_blank">Steam</a>` : ""}
           ${tb ? `<a href="${tb}" target="_blank">TrucksBook</a>` : ""}
           ${email ? `<a href="mailto:${email}">Email</a>` : ""}
