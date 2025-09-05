@@ -1,4 +1,5 @@
 <?php include '../../includes/auth.php'; ?>
+<?php include 'admin-header.php'; ?>
 <head>
   <title>Správa zaměstnanců - Bohemia Logistics</title>
   <link rel="stylesheet" href="/assets/css/style.css">
@@ -8,12 +9,11 @@
     <h1>Správa zaměstnanců</h1>
 
 <?php
-$employees = json_decode(file_get_contents("../includes/employees.json"), true);
+$employees = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/includes/employees.json'), true);
 ?>
 
 <div class="admin-header">
   <a href="/pages/add-employee.php" class="btn-add">➕ Přidat zaměstnance</a>
-  <a href="/index.php" class="btn-add">🏠 Zpět na web</a>
 </div>
 <table class="employee-table">
   <thead>
@@ -45,7 +45,7 @@ foreach ($employees as $index => $e): ?>
           <?= $e['email'] ? "<a href='mailto:{$e['email']}'>Email</a>" : "" ?>
         </td>
         <td>
-          <a href="/pages/edit-employee.php?index=<?= $index ?>" class="btn-edit">✏️ Editovat</a>
+          <a href="/pages/admin/edit-employee.php?index=<?= $index ?>" class="btn-edit">✏️ Editovat</a>
           <form action="/actions/delete-employee.php" method="POST" style="display:inline;">
             <input type="hidden" name="index" value="<?= $index ?>">
             <button type="submit" class="btn-delete">🗑️ Smazat</button>
@@ -57,3 +57,4 @@ foreach ($employees as $index => $e): ?>
 </table>
   </div>
 </body>
+<?php include 'admin-footer.php'; ?>

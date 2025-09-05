@@ -1,5 +1,4 @@
-<?php include '../../includes/auth.php'; ?>
-
+<?php include 'admin-header.php'; ?>
 <div class="admin-dashboard container">
   <h1>Nastavení přístupu</h1>
 
@@ -37,3 +36,4 @@
     </form>
   </div>
 </div>
+<?php include 'admin-footer.php'; ?>

@@ -1,29 +1,41 @@
 <?php include '../includes/header.php'; ?>
+<?php include '../includes/modal.php'; ?>
 
 <main class="employees-page">
   <div class="container">
     <h1>Zaměstnanci</h1>
 
     <?php
-    $employees = json_decode(file_get_contents("../includes/employees.json"), true);
+    $employees = json_decode(file_get_contents(__DIR__ . '/../includes/employees.json'), true);
     $vedeni = array_filter($employees, fn($e) => $e['category'] === 'vedeni');
     $ridici = array_filter($employees, fn($e) => $e['category'] === 'ridici');
 
     function renderEmployeeCard($e) {
-      return '
-        <div class="employee-card"
-             data-name="' . htmlspecialchars($e['name']) . '"
-             data-role="' . htmlspecialchars($e['role']) . '"
-             data-img="' . htmlspecialchars($e['img']) . '"
-             data-dc="' . htmlspecialchars($e['dc']) . '"
-             data-steam="' . htmlspecialchars($e['steam']) . '"
-             data-trucksbook="' . htmlspecialchars($e['trucksbook']) . '"
-             data-email="' . htmlspecialchars($e['email']) . '">
-          <img src="' . htmlspecialchars($e['img']) . '" alt="' . htmlspecialchars($e['name']) . '">
-          <h3>' . htmlspecialchars($e['name']) . '</h3>
-          <p>' . htmlspecialchars($e['role']) . '</p>
-          <button class="contact-btn">Kontakt</button>
-        </div>';
+      $name = htmlspecialchars($e['name']);
+      $role = htmlspecialchars($e['role']);
+      $img = htmlspecialchars($e['img']);
+      $email = htmlspecialchars($e['email']);
+      $dc = htmlspecialchars($e['dc']);
+      $steam = htmlspecialchars($e['steam']);
+      $tb = htmlspecialchars($e['trucksbook']);
+
+      return <<<HTML
+        <div class="employee-card">
+          <img src="$img" alt="$role" class="employee-img">
+          <h3>$name</h3>
+          <p>$role</p>
+          <button class="contact-btn"
+            data-name="$name"
+            data-role="$role"
+            data-img="$img"
+            data-email="$email"
+            data-dc="$dc"
+            data-steam="$steam"
+            data-trucksbook="$tb">
+            Kontaktovat
+          </button>
+        </div>
+      HTML;
     }
     ?>
 
@@ -45,6 +57,5 @@
   </div>
 </main>
 
-<script src="/assets/js/modal.js"></script>
-<?php include '../includes/modal.php'; ?>
 <?php include '../includes/footer.php'; ?>
+<script src="/assets/js/modal.js"></script>

@@ -163,7 +163,8 @@ button:hover, .btn:hover {
 .footer {
   background-color: #1b1b1b;
   color: #ccc;
-  padding: 40px 20px;
+  padding: 2rem 1rem;
+    margin-top: 3rem;
   font-size: 14px;
   border-top: 1px solid #333;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.4);

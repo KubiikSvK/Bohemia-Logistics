@@ -33,11 +33,7 @@
     <!-- Karty hlavních osob -->
     <?php
     $contacts = json_decode(file_get_contents(__DIR__ . '/../includes/employees.json'), true);
-
-    // Vyber jen Majitele a Náboráře
-    $filtered = array_filter($contacts, function ($person) {
-      return in_array($person['role'] ?? '', ['Majitel', 'Náborář']);
-    });
+    $filtered = array_filter($contacts, fn($person) => in_array($person['role'] ?? '', ['Majitel', 'Náborář']));
     ?>
 
     <section class="main-contacts">
@@ -51,17 +47,19 @@
             <h3><?php echo htmlspecialchars($person['name'] ?? ''); ?></h3>
             <p><?php echo htmlspecialchars($person['role'] ?? ''); ?></p>
             <button class="contact-btn"
+              data-name="<?php echo htmlspecialchars($person['name'] ?? ''); ?>"
+              data-role="<?php echo htmlspecialchars($person['role'] ?? ''); ?>"
+              data-img="<?php echo htmlspecialchars($person['img'] ?? ''); ?>"
+              data-email="<?php echo htmlspecialchars($person['email'] ?? ''); ?>"
               data-dc="<?php echo htmlspecialchars($person['dc'] ?? ''); ?>"
               data-steam="<?php echo htmlspecialchars($person['steam'] ?? ''); ?>"
-              data-trucksbook="<?php echo htmlspecialchars($person['trucksbook'] ?? ''); ?>"
-              data-email="<?php echo htmlspecialchars($person['email'] ?? ''); ?>">
-                Kontaktovat
+              data-trucksbook="<?php echo htmlspecialchars($person['trucksbook'] ?? ''); ?>">
+              Kontaktovat
             </button>
           </div>
         <?php endforeach; ?>
       </div>
     </section>
-
   </div>
 
   <!-- Modal -->

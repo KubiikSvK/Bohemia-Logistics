@@ -1,130 +1,259 @@
-/*  Nadpis dashboardu */
-.admin-dashboard h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+/* === ZÁKLADNÍ STYL === */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
 }
 
-/*  Blok s tlačítky v dashboardu */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  padding-bottom: 80px;
+}
+
+/* === NADPISY === */
+h1, h2 {
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #003366;
+}
+
+/* === ADMIN TLAČÍTKA === */
 .admin-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2rem;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
 }
 
-/*  Tlačítka v adminu */
 .admin-btn {
-  background-color: #3498db;
-  color: #fff;
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 5px;
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  display: inline-block; /* ✅ doporučeno pro konzistenci */
+  font-weight: 500;
+  transition: background 0.2s ease;
 }
 
-/*  Hover efekt pro běžná tlačítka */
-.admin-btn:hover {
-  background-color: #2980b9;
+.admin-btn i {
+  margin-right: 8px;
+}
+/* === TLAČÍTKA === */
+.btn-edit,
+.btn-delete,
+.btn-add {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-right: 5px;
 }
 
-/*  Tlačítko typu "nebezpečí" (např. odhlášení, smazání) */
-.admin-btn.danger {
-  background-color: #e74c3c;
+.btn-edit {
+  background: #ffc107;
+  color: black;
 }
 
-.admin-btn.danger:hover {
-  background-color: #c0392b;
+.btn-edit:hover {
+  background: #e0a800;
 }
 
-/*  Tabulka zaměstnanců */
-.employee-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #1f1f1f;
-  color: #ccc;
-  font-family: 'Nunito', sans-serif;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-/*  Buňky tabulky */
-.employee-table th,
-.employee-table td {
-  padding: 1rem;
-  border-bottom: 1px solid #333;
-  text-align: left;
-}
-
-/*  Hover efekt pro řádky */
-.employee-table tr:hover {
-  background-color: #262626;
-}
-
-/*  Avatar v tabulce */
-.admin-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
-}
-
-/*  Formulářové skupiny */
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-/*  Popisky formulářových polí */
-.form-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #eee;
-}
-
-/*  Vstupní pole, selecty, textarea */
-input[type="text"],
-input[type="email"],
-select,
-textarea {
-  width: 100%;
-  padding: 0.6rem;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  color: #ccc;
-  border-radius: 5px;
-  font-family: 'Nunito', sans-serif;
-}
-
-/*  Tlačítko pro odeslání formuláře */
-input[type="submit"] {
-  background-color: var(--accent-color);
-  color: #1f1f1f;
-  padding: 0.6rem 1rem;
+.btn-delete {
+  background: #dc3545;
+  color: white;
   border: none;
-  border-radius: 5px;
-  font-weight: bold;
   cursor: pointer;
 }
 
-/* Hover efekt pro submit */
-input[type="submit"]:hover {
-  background-color: #e6951d;
+.btn-delete:hover {
+  background: #c82333;
 }
 
-/* admin panel*/
-.form-section {
-  margin-top: 2rem;
-  background-color: #1f1f1f;
-  padding: 1.5rem;
+.btn-add {
+  background: #28a745;
+  color: white;
+}
+
+.btn-add:hover {
+  background: #218838;
+}
+
+/* Barvy podle funkce */
+.admin-btn {
+  background-color: #007bff;
+  color: white;
+}
+.admin-btn:hover {
+  background-color: #0056b3;
+}
+
+.admin-btn.success {
+  background-color: #28a745;
+}
+.admin-btn.success:hover {
+  background-color: #218838;
+}
+
+.admin-btn.warning {
+  background-color: #ffc107;
+  color: black;
+}
+.admin-btn.warning:hover {
+  background-color: #e0a800;
+}
+
+.admin-btn.danger {
+  background-color: #dc3545;
+}
+.admin-btn.danger:hover {
+  background-color: #c82333;
+}
+
+/* === LOGIN FORMULÁŘ === */
+.login-container {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-container input {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.login-container button {
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background: #0056b3;
+}
+
+/* === FORMULÁŘE === */
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+button[type="submit"],
+input[type="submit"] {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+button[type="submit"]:hover,
+input[type="submit"]:hover {
+  background: #0056b3;
+}
+
+/* === MESSAGES === */
+.success-msg {
+  background: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #c3e6cb;
+}
+
+/* === FORM SECTIONS === */
+.form-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
 
 .form-section h2 {
-  margin-bottom: 1rem;
-  color: var(--accent-color);
+  margin-bottom: 20px;
+  color: #003366;
+}
+
+/* === FORM GROUP === */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* === avatar === */
+.admin-avatar {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+/* === TABULKY === */
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.employee-table th {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* === FOOTER === */
+footer {
+  margin-top: 60px;
+  text-align: center;
+  padding: 20px;
+  background: #f0f0f0;
+  font-size: 0.9em;
+  color: #555;
+  border-top: 1px solid #ddd;
 }
