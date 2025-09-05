@@ -1,5 +1,6 @@
 <?php
 // index.php
+require_once 'config.php';
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -18,7 +19,19 @@
 </head>
 <body>
 
-<?php include 'includes/header.php'; ?>
+<?php 
+// Bezpečné načítání header souboru
+try {
+    if (!safeInclude('includes/header.php')) {
+        throw new Exception('Header soubor neexistuje.');
+    }
+} catch (Exception $e) {
+    error_log('Chyba při načítání header: ' . $e->getMessage());
+    http_response_code(500);
+    echo '<h1>Chyba serveru</h1><p>Omlouváme se, došlo k chybě při načítání stránky.</p>';
+    exit;
+}
+?>
     <div class="container">
 
 <main class="hero">
@@ -39,7 +52,12 @@
     </section>
 </main>
     </div>
-<?php include 'includes/footer.php'; ?>
+<?php 
+// Bezpečné načítání footer souboru
+if (!safeInclude('includes/footer.php')) {
+    echo '<!-- Footer soubor nenalezen -->';
+}
+?>
 <script src="assets/js/script.js"></script>
 <script src="assets/js/cookies.js"></script>
 

@@ -1,23 +1,41 @@
-logi<?php
-session_start();
+<?php
+require_once '../../config.php';
 
-$users = json_decode(file_get_contents(__DIR__ . '/includes/admin-users.json'), true);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Přesměrování pokud už je přihlášen
+if (isAdminLoggedIn()) {
+    header('Location: dashboard.php');
+    exit;
+}
+
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $username = $_POST["username"] ?? "";
-  $password = $_POST["password"] ?? "";
-
-  foreach ($users as $user) {
-    if ($user["username"] === $username && password_verify($password, $user["password"])) {
-      session_start();
-        $_SESSION["admin"] = $username;
-      header("Location: dashboard.php");
-      exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF ochrana
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $error = "Neplatný bezpečnostní token.";
+    } else {
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+        $password = $_POST['password'] ?? '';
+        
+        $users = loadAdminUsers();
+        if ($users === false) {
+            $error = "Chyba při načítání uživatelů.";
+        } else {
+            foreach ($users as $user) {
+                if ($user['username'] === $username && password_verify($password, $user['password'])) {
+                    $_SESSION['admin'] = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+                    $_SESSION['login_time'] = time();
+                    header('Location: dashboard.php');
+                    exit;
+                }
+            }
+            $error = "Neplatné přihlašovací údaje.";
+        }
     }
-  }
-
-  $error = "Neplatné přihlašovací údaje.";
 }
 ?>
 
@@ -37,12 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <h2><i class="fas fa-lock"></i> Admin přihlášení</h2>
 
   <?php if ($error): ?>
-    <p class="error"><?php echo $error; ?></p>
+    <p class="error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
   <?php endif; ?>
 
   <form method="post">
-    <input type="text" name="username" placeholder="Uživatelské jméno" required>
-    <input type="password" name="password" placeholder="Heslo" required>
+    <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
+    <input type="text" name="username" placeholder="Uživatelské jméno" required maxlength="50">
+    <input type="password" name="password" placeholder="Heslo" required maxlength="100">
     <button type="submit"><i class="fas fa-sign-in-alt"></i> Přihlásit se</button>
   </form>
 </div>

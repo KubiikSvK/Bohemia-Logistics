@@ -61,6 +61,7 @@ button:hover, .btn:hover {
     background-color: #e59400;
     transform: translateY(-3px);
     box-shadow: 0 4px 15px rgba(245,166,35,0.6);
+    color: #121212;
 }
 
 /* ============================= */
@@ -225,6 +226,27 @@ button:hover, .btn:hover {
 }
 
 /* ============================= */
+/* Error zprávy */
+/* ============================= */
+
+.error-message {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.employee-card.error {
+    background-color: #e74c3c;
+    color: #fff;
+    border: 2px solid #c0392b;
+}
+
+/* ============================= */
 /* Cookies lišta */
 /* ============================= */
 
@@ -257,22 +279,33 @@ section {
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
-section ul {
+.quick-links ul {
     list-style: none;
     padding-left: 0;
 }
 
-section ul li {
+.quick-links ul li {
     margin-bottom: 1rem;
-    padding-left: 1rem;
+    padding-left: 1.5rem;
     position: relative;
 }
 
-section ul li::before {
-    content: "➤";
+.quick-links ul li::before {
+    content: "•";
     position: absolute;
     left: 0;
     color: #f5a623;
+    font-weight: bold;
+}
+
+/* Ostatní sekce bez custom odrážek */
+section ul:not(.quick-links ul) {
+    list-style: disc;
+    padding-left: 1.5rem;
+}
+
+section ul:not(.quick-links ul) li {
+    margin-bottom: 0.5rem;
 }
 /* ============================= */
 /* Employees page */
@@ -539,6 +572,7 @@ img {
 .btn-join:hover {
     background-color: #f39c12;
     transform: translateY(-2px);
+    color: #1f1f1f;
 }
 
 /* Responzivita */

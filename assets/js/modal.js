@@ -1,161 +1,183 @@
 /* =========================== */
-/* Universal Modal Script     */
+/* Modal Script */
 /* =========================== */
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("universal-modal");
-  const modalBody = document.getElementById("modal-body");
-  const modalNav = document.getElementById("modal-nav");
-  const closeBtn = document.querySelector(".modal-close");
-  const prevBtn = document.getElementById("prev-btn");
-  const nextBtn = document.getElementById("next-btn");
-
-  let galleryImages = [];
-  let currentIndex = 0;
-
-  // === Kontakt modal ===
-  document.querySelectorAll(".contact-btn").forEach(button => {
-    button.addEventListener("click", () => {
-      const name = button.dataset.name || "";
-      const role = button.dataset.role || "";
-      const imgSrc = button.dataset.img || "";
-      const dc = button.dataset.dc || "";
-      const steam = button.dataset.steam || "";
-      const tb = button.dataset.trucksbook || "";
-      const email = button.dataset.email || "";
-
-      modalBody.innerHTML = `
-        <img src="${imgSrc}" alt="${name}" style="width:100px; height:100px; border-radius:50%; margin-bottom:10px;">
-        <h3>${name}</h3>
-        <p>${role}</p>
-        <div class="contact-links">
-          ${dc ? `<a href="https://discord.com/users/${dc}" target="_blank">Discord</a>` : ""}
-          ${steam ? `<a href="${steam}" target="_blank">Steam</a>` : ""}
-          ${tb ? `<a href="${tb}" target="_blank">TrucksBook</a>` : ""}
-          ${email ? `<a href="mailto:${email}">Email</a>` : ""}
-        </div>
-      `;
-      modalNav.style.display = "none";
-      modal.classList.add("active");
-    });
-  });
-
-  // === Galerie modal ===
-  document.querySelectorAll(".gallery-img").forEach((img, index) => {
-    galleryImages.push(img.getAttribute("src"));
-
-    img.addEventListener("click", () => {
-      currentIndex = index;
-      showGalleryImage();
-      modalNav.style.display = "flex";
-      modal.classList.add("active");
-    });
-  });
-
-  function showGalleryImage() {
-    const src = galleryImages[currentIndex];
-    modalBody.innerHTML = `<img src="${src}" alt="" style="max-width:100%; border-radius:8px;">`;
+(function() {
+  'use strict';
+  
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
+  
+  function isValidUrl(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+  
+  function initModal() {
+    const modal = document.getElementById("universal-modal");
+    const modalBody = document.getElementById("modal-body");
+    const modalNav = document.getElementById("modal-nav");
+    const closeBtn = document.querySelector(".modal-close");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
 
-  prevBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-    showGalleryImage();
-  });
+    let galleryImages = [];
+    let currentIndex = 0;
 
-  nextBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % galleryImages.length;
-    showGalleryImage();
-  });
+    // Kontakt modal
+    document.querySelectorAll(".contact-btn").forEach(button => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        
+        const name = escapeHtml(button.dataset.name || "");
+        const role = escapeHtml(button.dataset.role || "");
+        const imgSrc = escapeHtml(button.dataset.img || "");
+        const dc = button.dataset.dc || "";
+        const steam = button.dataset.steam || "";
+        const tb = button.dataset.trucksbook || "";
+        const email = button.dataset.email || "";
+        
+        let discordLink = "";
+        if (dc && /^\d+$/.test(dc)) {
+          discordLink = `https://discord.com/users/${dc}`;
+        } else if (dc && dc.startsWith("http") && isValidUrl(dc)) {
+          discordLink = dc;
+        }
+        
+        const contactLinks = [];
+        if (discordLink) contactLinks.push(`<a href="${discordLink}" target="_blank" rel="noopener noreferrer">Discord</a>`);
+        if (steam && isValidUrl(steam)) contactLinks.push(`<a href="${steam}" target="_blank" rel="noopener noreferrer">Steam</a>`);
+        if (tb && isValidUrl(tb)) contactLinks.push(`<a href="${tb}" target="_blank" rel="noopener noreferrer">TrucksBook</a>`);
+        if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) contactLinks.push(`<a href="mailto:${email}">Email</a>`);
 
-  closeBtn.addEventListener("click", () => {
-    modal.classList.remove("active");
-  });
+        modalBody.innerHTML = `
+          <img src="${imgSrc}" alt="${name}" style="width:100px; height:100px; border-radius:50%; margin-bottom:10px;" loading="lazy">
+          <h3>${name}</h3>
+          <p>${role}</p>
+          <div class="contact-links">
+            ${contactLinks.join('')}
+          </div>
+        `;
+        
+        if (modalNav) modalNav.style.display = "none";
+        modal.classList.add("active");
+      });
+    });
 
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) {
+    // Galerie modal - jednodušší přístup
+    const galleryModal = document.getElementById("galleryModal");
+    const galleryModalImg = document.getElementById("modalImage");
+    const galleryClose = document.querySelector(".close");
+    const galleryPrev = document.querySelector(".prev");
+    const galleryNext = document.querySelector(".next");
+    
+
+    
+    // Přidání event listenerů na všechny gallery obrázky
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('gallery-img')) {
+        e.preventDefault();
+        const imgs = document.querySelectorAll('.gallery-img');
+        currentIndex = Array.from(imgs).indexOf(e.target);
+        
+        if (galleryModal && galleryModalImg) {
+          galleryModal.style.display = "block";
+          galleryModalImg.src = e.target.src;
+        }
+      }
+    });
+    
+    // Gallery modal controls
+    if (galleryClose) {
+      galleryClose.onclick = () => {
+        if (galleryModal) galleryModal.style.display = "none";
+      };
+    }
+    
+    // Gallery navigation
+    if (galleryPrev) {
+      galleryPrev.onclick = () => {
+        const imgs = document.querySelectorAll('.gallery-img');
+        currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
+        galleryModalImg.src = imgs[currentIndex].src;
+      };
+    }
+    
+    if (galleryNext) {
+      galleryNext.onclick = () => {
+        const imgs = document.querySelectorAll('.gallery-img');
+        currentIndex = (currentIndex + 1) % imgs.length;
+        galleryModalImg.src = imgs[currentIndex].src;
+      };
+    }
+    
+    window.addEventListener("click", (e) => {
+      if (e.target === galleryModal) {
+        galleryModal.style.display = "none";
+      }
+    });
+
+    function showGalleryImage() {
+      if (currentIndex >= 0 && currentIndex < galleryImages.length) {
+        modalBody.innerHTML = `<img src="${galleryImages[currentIndex]}" alt="Galerie" style="max-width:100%; border-radius:8px;">`;
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (galleryImages.length > 0) {
+          currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+          showGalleryImage();
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (galleryImages.length > 0) {
+          currentIndex = (currentIndex + 1) % galleryImages.length;
+          showGalleryImage();
+        }
+      });
+    }
+
+    function closeModal() {
       modal.classList.remove("active");
     }
-  });
 
-  document.addEventListener("keydown", (e) => {
-    if (!modal.classList.contains("active")) return;
-
-    if (e.key === "Escape") modal.classList.remove("active");
-    if (modalNav.style.display === "flex") {
-      if (e.key === "ArrowLeft") prevBtn.click();
-      if (e.key === "ArrowRight") nextBtn.click();
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeModal);
     }
-  });
-});
 
-/* =========================== */
-/* Gallery Modal Script       */
-/* =========================== */
-document.addEventListener("DOMContentLoaded", () => {
-  const galleryModal = document.getElementById("galleryModal");
-  const galleryModalImg = document.getElementById("modalImage");
-  const galleryClose = document.querySelector("#galleryModal .close");
-  const galleryPrev = document.querySelector("#galleryModal .prev");
-  const galleryNext = document.querySelector("#galleryModal .next");
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
 
-  const galleryItems = Array.from(document.querySelectorAll(".gallery-img"));
-  let currentIndex = 0;
-
-  // Otevření modalu
-  galleryItems.forEach((img, index) => {
-    img.addEventListener("click", () => {
-      currentIndex = index;
-      galleryModal.style.display = "block";
-      galleryModalImg.src = galleryItems[currentIndex].src;
+    document.addEventListener("keydown", (e) => {
+      if (modal.classList.contains("active")) {
+        if (e.key === "Escape") closeModal();
+      }
+      if (galleryModal && galleryModal.style.display === "block") {
+        if (e.key === "Escape") galleryModal.style.display = "none";
+        if (e.key === "ArrowLeft" && galleryPrev) galleryPrev.click();
+        if (e.key === "ArrowRight" && galleryNext) galleryNext.click();
+      }
     });
-  });
-
-  // Zavření modalu
-  galleryClose.onclick = () => galleryModal.style.display = "none";
-  window.addEventListener("click", (e) => {
-    if (e.target === galleryModal) galleryModal.style.display = "none";
-  });
-
-  // Šipky
-  galleryPrev.onclick = () => {
-    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
-    galleryModalImg.src = galleryItems[currentIndex].src;
-  };
-
-  galleryNext.onclick = () => {
-    currentIndex = (currentIndex + 1) % galleryItems.length;
-    galleryModalImg.src = galleryItems[currentIndex].src;
-  };
-
-  // Klávesy
-  document.addEventListener("keydown", (e) => {
-    if (galleryModal.style.display !== "block") return;
-    if (e.key === "ArrowLeft") galleryPrev.click();
-    if (e.key === "ArrowRight") galleryNext.click();
-    if (e.key === "Escape") galleryModal.style.display = "none";
-  });
-
-  // Swipe
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  galleryModal.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-
-  galleryModal.addEventListener("touchend", (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  });
-
-  function handleSwipe() {
-    const threshold = 50;
-    const distance = touchEndX - touchStartX;
-    if (Math.abs(distance) < threshold) return;
-
-    if (distance > 0) {
-      galleryPrev.click(); // swipe right
-    } else {
-      galleryNext.click(); // swipe left
-    }
   }
-});
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initModal);
+  } else {
+    initModal();
+  }
+})();

@@ -14,10 +14,10 @@
         <div class="footer-right">
             <p>Sledujte nás:</p>
             <div class="social-links">
-                <a href="https://discord.com" target="_blank">
+                <a href="https://discord.com" target="_blank" rel="noopener noreferrer">
                 <img src="/assets/img/icons/dc.png" alt="Discord" class="footer-icon">
             </a>
-            <a href="https://instagram.com" target="_blank">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
                 <img src="/assets/img/icons/ig.png" alt="Instagram" class="footer-icon">
             </a>
             </div>

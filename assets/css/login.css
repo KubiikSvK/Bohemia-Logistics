@@ -75,6 +75,18 @@ body {
   border-radius: 4px;
   text-align: center;
   margin-bottom: 15px;
+  border: 1px solid #aa3333;
+}
+
+/* === Úspěšná zpráva === */
+.success {
+  background: #116611;
+  color: #ccffcc;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 15px;
+  border: 1px solid #33aa33;
 }
 
 /* === FOOTER === */

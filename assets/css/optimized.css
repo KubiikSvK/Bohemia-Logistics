@@ -1,0 +1,293 @@
+/* Optimalizovaný CSS pro lepší výkon */
+
+/* CSS Custom Properties pro konzistentní design */
+:root {
+    --bg-primary: #121212;
+    --bg-secondary: #1b1b1b;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #eee;
+    --text-secondary: #ccc;
+    --text-muted: #aaa;
+    --accent-primary: #f5a623;
+    --accent-hover: #e59400;
+    --border-color: #333;
+    --shadow-light: 0 2px 6px rgba(0,0,0,0.3);
+    --shadow-medium: 0 4px 15px rgba(0,0,0,0.5);
+    --shadow-heavy: 0 10px 25px rgba(0,0,0,0.6);
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --border-radius: 8px;
+    --border-radius-large: 12px;
+}
+
+/* Reset a základní styly */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typografie */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    padding-top: 50px;
+}
+
+/* Utility classes */
+.text-center { text-align: center; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+.mb-3 { margin-bottom: 3rem; }
+
+/* Tlačítka */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    font-weight: 600;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-light);
+    text-decoration: none;
+    text-align: center;
+    will-change: transform;
+}
+
+.btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Header */
+.site-header {
+    background-color: var(--bg-secondary);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-medium);
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+/* Navigace */
+.site-nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.site-nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    transition: color var(--transition-normal);
+}
+
+.site-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-primary);
+    transition: width var(--transition-normal);
+}
+
+.site-nav a:hover {
+    color: var(--accent-primary);
+}
+
+.site-nav a:hover::after {
+    width: 100%;
+}
+
+/* Employee cards */
+.management-grid,
+.drivers-grid {
+    display: grid;
+    gap: 2rem;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.management-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 900px;
+}
+
+.drivers-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    max-width: 1100px;
+}
+
+.employee-card {
+    background-color: var(--bg-tertiary);
+    padding: 1.2rem;
+    text-align: center;
+    border-radius: var(--border-radius-large);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    max-width: 250px;
+    margin: 0 auto;
+    will-change: transform;
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-heavy);
+}
+
+.employee-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.employee-card h3 {
+    margin: 0.5rem 0 0.2rem 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.employee-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.contact-btn {
+    margin-top: 0.7rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+/* Responzivní design */
+@media (max-width: 1024px) {
+    .management-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .drivers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .site-header .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .site-nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .management-grid,
+    .drivers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Performance optimalizace */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Lazy loading support */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+}
+
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
