@@ -4,7 +4,15 @@
 // Bezpečnostní nastavení
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1);
+ini_set('session.use_strict_mode', 1);
 error_reporting(E_ALL);
+
+// Prevent direct access
+if (!defined('SECURE_ACCESS')) {
+    define('SECURE_ACCESS', true);
+}
 
 // Definice konstant
 define('BASE_PATH', __DIR__);
@@ -96,10 +104,14 @@ function validateCSRFToken($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
+function verifyCSRFToken($token) {
+    return validateCSRFToken($token);
+}
+
 // Admin funkce
 function loadAdminUsers() {
     $filename = 'admin-users.json';
-    $filePath = BASE_PATH . '/pages/admin/includes/' . $filename;
+    $filePath = BASE_PATH . '/includes/' . $filename;
     
     if (!validateFilePath($filePath) || !file_exists($filePath)) {
         error_log("Admin users soubor neexistuje: " . htmlspecialchars($filename, ENT_QUOTES, 'UTF-8'));
@@ -133,5 +145,18 @@ function requireAdmin() {
         header('Location: /pages/admin/login.php');
         exit;
     }
+}
+
+// Load WYSIWYG content
+function loadWysiwygContent($page) {
+    $contentDir = '/var/www/bml.vanekgroup.eu/includes/content/';
+    $filePath = $contentDir . $page . '.json';
+    
+    if (!file_exists($filePath)) {
+        return '';
+    }
+    
+    $data = json_decode(file_get_contents($filePath), true);
+    return $data['content'] ?? '';
 }
 ?>

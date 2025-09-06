@@ -5,14 +5,16 @@
             <p>&copy; <?= date('Y') ?> Bohemia Logistics. Všechna práva vyhrazena.</p>
         </div>
         <div class="footer-center">
+            <h4>Rychlé odkazy</h4>
             <nav class="footer-nav">
-                <a href="/pages/gdpr.php">GDPR</a>
                 <a href="/pages/about.php">O nás</a>
                 <a href="/pages/contacts.php">Kontakty</a>
+                <a href="/pages/gdpr.php">GDPR</a>
+                <a href="/pages/admin/login.php" style="color: #666; font-size: 0.9em;">⚙️ Admin</a>
             </nav>
         </div>
         <div class="footer-right">
-            <p>Sledujte nás:</p>
+            <h4>Sledujte nás</h4>
             <div class="social-links">
                 <a href="https://discord.com" target="_blank" rel="noopener noreferrer">
                 <img src="/assets/img/icons/dc.png" alt="Discord" class="footer-icon">
@@ -24,3 +26,5 @@
         </div>
     </div>
 </footer>
+
+<?php include 'cookies.php'; ?>

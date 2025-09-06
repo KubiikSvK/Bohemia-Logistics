@@ -87,39 +87,70 @@
         currentIndex = Array.from(imgs).indexOf(e.target);
         
         if (galleryModal && galleryModalImg) {
-          galleryModal.style.display = "block";
           galleryModalImg.src = e.target.src;
+          galleryModal.classList.add('active');
         }
       }
     });
     
     // Gallery modal controls
-    if (galleryClose) {
-      galleryClose.onclick = () => {
-        if (galleryModal) galleryModal.style.display = "none";
-      };
+    function closeGalleryModal() {
+      if (galleryModal) {
+        galleryModal.classList.remove('active');
+      }
     }
     
-    // Gallery navigation
-    if (galleryPrev) {
-      galleryPrev.onclick = () => {
-        const imgs = document.querySelectorAll('.gallery-img');
+    if (galleryClose) {
+      galleryClose.onclick = closeGalleryModal;
+    }
+    
+    // Gallery navigation - jednoduché řešení
+    function changeImage(direction) {
+      const imgs = document.querySelectorAll('.gallery-img');
+      if (direction === 'prev') {
         currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
-        galleryModalImg.src = imgs[currentIndex].src;
-      };
+      } else {
+        currentIndex = (currentIndex + 1) % imgs.length;
+      }
+      
+      galleryModalImg.src = imgs[currentIndex].src;
+    }
+    
+    if (galleryPrev) {
+      galleryPrev.onclick = () => changeImage('prev');
     }
     
     if (galleryNext) {
-      galleryNext.onclick = () => {
-        const imgs = document.querySelectorAll('.gallery-img');
-        currentIndex = (currentIndex + 1) % imgs.length;
-        galleryModalImg.src = imgs[currentIndex].src;
-      };
+      galleryNext.onclick = () => changeImage('next');
+    }
+    
+    // Swipe podpora pro mobily
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    if (galleryModal) {
+      galleryModal.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+      
+      galleryModal.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            changeImage('next'); // swipe left = next
+          } else {
+            changeImage('prev'); // swipe right = prev
+          }
+        }
+      });
     }
     
     window.addEventListener("click", (e) => {
       if (e.target === galleryModal) {
-        galleryModal.style.display = "none";
+        closeGalleryModal();
       }
     });
 
@@ -164,13 +195,14 @@
     }
 
     document.addEventListener("keydown", (e) => {
-      if (modal.classList.contains("active")) {
+      if (modal && modal.classList.contains("active")) {
         if (e.key === "Escape") closeModal();
       }
-      if (galleryModal && galleryModal.style.display === "block") {
-        if (e.key === "Escape") galleryModal.style.display = "none";
-        if (e.key === "ArrowLeft" && galleryPrev) galleryPrev.click();
-        if (e.key === "ArrowRight" && galleryNext) galleryNext.click();
+      if (galleryModal && galleryModal.classList.contains('active')) {
+        e.preventDefault();
+        if (e.key === "Escape") closeGalleryModal();
+        if (e.key === "ArrowLeft") changeImage('prev');
+        if (e.key === "ArrowRight") changeImage('next');
       }
     });
   }

@@ -19,6 +19,9 @@ if (!isset($_SESSION["admin"])) {
     <a href="gallery.php" class="admin-btn" style="padding:12px; background:#28a745; color:white; text-decoration:none; border-radius:5px;">
       <i class="fas fa-image"></i> Správa galerie
     </a>
+    <a href="wysiwyg-editor.php" class="admin-btn" style="padding:12px; background:#17a2b8; color:white; text-decoration:none; border-radius:5px;">
+      <i class="fas fa-edit"></i> Editor obsahu
+    </a>
     <a href="settings.php" class="admin-btn" style="padding:12px; background:#ffc107; color:black; text-decoration:none; border-radius:5px;">
       <i class="fas fa-cog"></i> Nastavení systému
     </a>

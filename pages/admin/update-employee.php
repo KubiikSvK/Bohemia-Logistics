@@ -26,6 +26,15 @@ $employees[$index]['category'] = $_POST['category'] ?? 'ridici';
 if (isset($_FILES['new_img']) && $_FILES['new_img']['error'] === UPLOAD_ERR_OK) {
   $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
   if (in_array($_FILES['new_img']['type'], $allowedTypes)) {
+    // Smazat starou fotku pokud existuje
+    $oldImg = $employees[$index]['img'] ?? '';
+    if (!empty($oldImg) && strpos($oldImg, '/assets/img/employees/') === 0) {
+      $oldImgPath = $_SERVER['DOCUMENT_ROOT'] . $oldImg;
+      if (file_exists($oldImgPath)) {
+        unlink($oldImgPath);
+      }
+    }
+    
     $ext = pathinfo($_FILES['new_img']['name'], PATHINFO_EXTENSION);
     $filename = 'employee_' . $index . '.' . $ext;
     $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/assets/img/employees/';

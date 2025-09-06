@@ -49,11 +49,11 @@ if ($employees === false) {
           <?= !empty($safe['email']) ? "<a href='mailto:{$safe['email']}'>Email</a>" : "" ?>
         </td>
         <td>
-          <a href="/pages/admin/edit-employee.php?index=<?= (int)$index ?>" class="btn-edit">✏️ Editovat</a>
+          <a href="/pages/admin/edit-employee.php?index=<?= (int)$index ?>" class="btn-edit" style="min-width: 90px; text-align: center;">✏️ Editovat</a>
           <form action="/actions/delete-employee.php" method="POST" style="display:inline;">
             <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
             <input type="hidden" name="index" value="<?= (int)$index ?>">
-            <button type="submit" class="btn-delete" onclick="return confirm('Opravdu smazat?')">🗑️ Smazat</button>
+            <button type="submit" class="btn-delete" style="min-width: 90px;" onclick="return confirm('Opravdu smazat?')">🗑️ Smazat</button>
           </form>
         </td>
       </tr>
