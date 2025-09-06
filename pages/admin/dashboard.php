@@ -1,10 +1,26 @@
 <?php include 'admin-header.php'; ?>
 
 <?php
+require_once '../../config.php';
 session_start();
 if (!isset($_SESSION["admin"])) {
   header("Location: login.php");
   exit;
+}
+
+// Check if user is demo and redirect
+$adminUsers = loadAdminUsers();
+$currentUser = null;
+foreach ($adminUsers as $user) {
+    if ($user['username'] === $_SESSION['admin']) {
+        $currentUser = $user;
+        break;
+    }
+}
+
+if ($currentUser && $currentUser['role'] === 'demo') {
+    header('Location: demo-dashboard.php');
+    exit;
 }
 ?>
 

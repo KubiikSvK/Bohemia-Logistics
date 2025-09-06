@@ -63,7 +63,7 @@ try {
 
 <!-- Development Notice -->
 <div style="background: #ff6b35; color: white; text-align: center; padding: 10px; font-weight: bold;">
-    ⚠️ Stránky jsou stále ve vývoji - některé funkce mohou být nedokončené ⚠️
+    ⚠️ Stránky jsou stále ve vývoji - některé funkce mohou být nedokončené a ne všechny informace jsou aktuální ⚠️
 </div>
 
 <main class="hero">

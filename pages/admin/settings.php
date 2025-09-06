@@ -63,6 +63,7 @@ include 'admin-header.php';
   <div class="form-section">
     <h2>Přidat nového admina</h2>
     <form method="post" action="/actions/add-admin.php">
+      <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
       <div class="form-group">
         <label class="form-label text-light">Jméno</label>
         <input type="text" name="name" required>
@@ -80,6 +81,7 @@ include 'admin-header.php';
         <select name="role" required>
           <option value="admin">Admin</option>
           <option value="editor">Editor</option>
+          <option value="demo">Demo (pouze prohlížení)</option>
         </select>
       </div>
       <input type="submit" value="Vytvořit účet">

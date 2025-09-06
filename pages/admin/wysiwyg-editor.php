@@ -1,6 +1,23 @@
 <?php 
 require_once '../../config.php';
 requireAdmin();
+
+// Check if user is demo
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$adminUsers = loadAdminUsers();
+$currentUser = null;
+foreach ($adminUsers as $user) {
+    if ($user['username'] === $_SESSION['admin']) {
+        $currentUser = $user;
+        break;
+    }
+}
+
+$isDemo = ($currentUser && $currentUser['role'] === 'demo');
+
 include 'admin-header.php'; 
 
 $pages = [
@@ -88,28 +105,35 @@ if (file_exists($filePath)) {
         <label class="form-label text-light">Editace: <?= htmlspecialchars($pages[$currentPage]['title']) ?></label>
         
         <!-- Toolbar -->
-        <div id="toolbar" style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; border-bottom: none; border-radius: 4px 4px 0 0;">
-          <button type="button" onclick="formatText('bold')" style="margin: 2px; padding: 5px 10px;"><b>B</b></button>
-          <button type="button" onclick="formatText('italic')" style="margin: 2px; padding: 5px 10px;"><i>I</i></button>
-          <button type="button" onclick="formatText('underline')" style="margin: 2px; padding: 5px 10px;"><u>U</u></button>
-          <button type="button" onclick="formatText('insertUnorderedList')" style="margin: 2px; padding: 5px 10px;">• List</button>
-          <button type="button" onclick="formatText('insertOrderedList')" style="margin: 2px; padding: 5px 10px;">1. List</button>
-          <button type="button" onclick="formatText('justifyLeft')" style="margin: 2px; padding: 5px 10px;">←</button>
-          <button type="button" onclick="formatText('justifyCenter')" style="margin: 2px; padding: 5px 10px;">↔</button>
-          <button type="button" onclick="formatText('justifyRight')" style="margin: 2px; padding: 5px 10px;">→</button>
+        <div id="toolbar" style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; border-bottom: none; border-radius: 4px 4px 0 0; <?= $isDemo ? 'opacity: 0.5;' : '' ?>">
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'bold\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>"><b>B</b></button>
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'italic\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>"><i>I</i></button>
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'underline\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>"><u>U</u></button>
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'insertUnorderedList\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>">• List</button>
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'insertOrderedList\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>">1. List</button>
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'justifyLeft\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>">←</button>
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'justifyCenter\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>">↔</button>
+          <button type="button" onclick="<?= $isDemo ? '' : 'formatText(\'justifyRight\')' ?>" <?= $isDemo ? 'disabled' : '' ?> style="margin: 2px; padding: 5px 10px; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>">→</button>
         </div>
         
         <!-- Editor -->
-        <div id="wysiwygEditor" contenteditable="true" style="min-height: 400px; padding: 15px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; background: white; color: black; font-family: Arial, sans-serif; line-height: 1.5;"><?= $content ?></div>
+        <div id="wysiwygEditor" contenteditable="<?= $isDemo ? 'false' : 'true' ?>" style="min-height: 400px; padding: 15px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; background: <?= $isDemo ? '#f8f9fa' : 'white' ?>; color: black; font-family: Arial, sans-serif; line-height: 1.5; <?= $isDemo ? 'cursor: not-allowed;' : '' ?>"><?= $content ?></div>
         
         <!-- Hidden textarea for form submission -->
         <textarea name="content" id="hiddenContent" style="display: none;"></textarea>
       </div>
       
+      <?php if (!$isDemo): ?>
       <div style="display: flex; gap: 10px; margin-top: 20px;">
         <input type="submit" value="Uložit změny" style="background: #28a745;">
         <button type="button" onclick="location.reload()" style="background: #6c757d;">Zrušit</button>
       </div>
+      <?php else: ?>
+      <div style="margin-top: 20px; padding: 15px; background: #ff6b35; color: white; border-radius: 4px; text-align: center;">
+        <strong>⚠️ DEMO REŽIM</strong><br>
+        Editor je pouze pro prohlížení. Změny nelze ukládat.
+      </div>
+      <?php endif; ?>
     </form>
   </div>
 </div>

@@ -4,5 +4,11 @@
         "email": "jvanek23@gmail.com",
         "role": "admin",
         "password": "$2y$12$lSZfyQFI.SBq3Z6WQsVr0OVIsfHecZlBWBDMTxKq4tWBiLRuw0cbi"
+    },
+    {
+        "username": "demo",
+        "email": "demo@example.com",
+        "role": "demo",
+        "password": "$2y$12$.YwMmUoEz1E7U5dp.zQzk.OKNnF08Dl5GF6yn.RQSDNOeg6xdR\/V."
     }
 ]

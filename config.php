@@ -5,7 +5,7 @@
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 1);
+// ini_set('session.cookie_secure', 1); // Vypnuto - vyžaduje HTTPS
 ini_set('session.use_strict_mode', 1);
 error_reporting(E_ALL);
 
@@ -30,17 +30,32 @@ function validateFilePath($path) {
     }
     
     // Bezpečnější kontrola s DIRECTORY_SEPARATOR
-    return str_starts_with($realPath, $basePath . DIRECTORY_SEPARATOR) || $realPath === $basePath;
+    return substr($realPath, 0, strlen($basePath . DIRECTORY_SEPARATOR)) === $basePath . DIRECTORY_SEPARATOR || $realPath === $basePath;
 }
 
 // Bezpečné načítání souborů
 function safeInclude($file) {
-    // Sanitizace vstupu
-    $file = filter_var($file, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
-    $fullPath = BASE_PATH . '/' . ltrim($file, '/');
+    // Whitelist povolených souborů
+    $allowedFiles = [
+        'includes/header.php',
+        'includes/footer.php',
+        'includes/cookies.php',
+        'includes/modal.php'
+    ];
+    
+    // Normalizace cesty
+    $file = str_replace(['\\', '..'], '', $file);
+    $file = ltrim($file, '/');
+    
+    if (!in_array($file, $allowedFiles, true)) {
+        error_log("Pokus o načtení nepovolného souboru: " . htmlspecialchars($file, ENT_QUOTES, 'UTF-8'));
+        return false;
+    }
+    
+    $fullPath = BASE_PATH . '/' . $file;
     
     if (!validateFilePath($fullPath) || !file_exists($fullPath)) {
-        error_log("Pokus o načtení neexistujícího nebo nebezpečného souboru: " . htmlspecialchars($file, ENT_QUOTES, 'UTF-8'));
+        error_log("Soubor neexistuje nebo není povolen: " . htmlspecialchars($file, ENT_QUOTES, 'UTF-8'));
         return false;
     }
     
@@ -50,11 +65,23 @@ function safeInclude($file) {
 
 // Bezpečné načítání JSON dat
 function loadJsonData($filename) {
+    // Whitelist povolených JSON souborů
+    $allowedFiles = [
+        'employees.json',
+        'admin-users.json'
+    ];
+    
     // Sanitizace názvu souboru
     $filename = basename($filename);
+    
+    if (!in_array($filename, $allowedFiles, true)) {
+        error_log("Pokus o načtení nepovolného JSON souboru: " . htmlspecialchars($filename, ENT_QUOTES, 'UTF-8'));
+        return false;
+    }
+    
     $filePath = INCLUDES_PATH . '/' . $filename;
     
-    if (!validateFilePath($filePath) || !file_exists($filePath)) {
+    if (!file_exists($filePath)) {
         error_log("JSON soubor neexistuje: " . htmlspecialchars($filename, ENT_QUOTES, 'UTF-8'));
         return false;
     }
@@ -67,7 +94,8 @@ function loadJsonData($filename) {
     
     $data = json_decode($jsonData, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
-        error_log("Chyba při parsování JSON: " . htmlspecialchars(json_last_error_msg(), ENT_QUOTES, 'UTF-8'));
+        $errorMsg = str_replace(["\r", "\n"], '', json_last_error_msg());
+        error_log("Chyba při parsování JSON: " . htmlspecialchars($errorMsg, ENT_QUOTES, 'UTF-8'));
         return false;
     }
     
@@ -90,7 +118,12 @@ function generateCSRFToken() {
     }
     
     if (!isset($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        try {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        } catch (Exception $e) {
+            // Fallback token generation
+            $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(32));
+        }
     }
     return $_SESSION['csrf_token'];
 }
@@ -104,33 +137,9 @@ function validateCSRFToken($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-function verifyCSRFToken($token) {
-    return validateCSRFToken($token);
-}
-
 // Admin funkce
 function loadAdminUsers() {
-    $filename = 'admin-users.json';
-    $filePath = BASE_PATH . '/includes/' . $filename;
-    
-    if (!validateFilePath($filePath) || !file_exists($filePath)) {
-        error_log("Admin users soubor neexistuje: " . htmlspecialchars($filename, ENT_QUOTES, 'UTF-8'));
-        return false;
-    }
-    
-    $jsonData = file_get_contents($filePath);
-    if ($jsonData === false) {
-        error_log("Nelze načíst admin users soubor: " . htmlspecialchars($filename, ENT_QUOTES, 'UTF-8'));
-        return false;
-    }
-    
-    $data = json_decode($jsonData, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        error_log("Chyba při parsování admin users JSON: " . htmlspecialchars(json_last_error_msg(), ENT_QUOTES, 'UTF-8'));
-        return false;
-    }
-    
-    return $data;
+    return loadJsonData('admin-users.json');
 }
 
 function isAdminLoggedIn() {
@@ -149,14 +158,30 @@ function requireAdmin() {
 
 // Load WYSIWYG content
 function loadWysiwygContent($page) {
-    $contentDir = '/var/www/bml.vanekgroup.eu/includes/content/';
-    $filePath = $contentDir . $page . '.json';
+    // Whitelist allowed pages
+    $allowedPages = ['index', 'about', 'rules'];
     
-    if (!file_exists($filePath)) {
+    if (!in_array($page, $allowedPages, true)) {
         return '';
     }
     
-    $data = json_decode(file_get_contents($filePath), true);
+    $contentDir = BASE_PATH . '/includes/content/';
+    $filePath = $contentDir . $page . '.json';
+    
+    if (!validateFilePath($filePath) || !file_exists($filePath)) {
+        return '';
+    }
+    
+    $jsonData = file_get_contents($filePath);
+    if ($jsonData === false) {
+        return '';
+    }
+    
+    $data = json_decode($jsonData, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return '';
+    }
+    
     return $data['content'] ?? '';
 }
 ?>

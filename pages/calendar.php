@@ -81,8 +81,8 @@
           <p>Zaregistrujte se do našeho TrucksBook profilu pro sledování statistik.</p>
         </div>
         <div class="instruction-card">
-          <h3>3. Multiplayer</h3>
-          <p>Připojte se na TruckersMP server v určený čas a místo.</p>
+          <h3>3. ETS2 konvoje</h3>
+          <p>Připojte se buď na TruckersMP server nebo použijte originální ETS2 Konvoj funkci ve hře pro společné jízdy.</p>
         </div>
       </div>
     </section>
